@@ -1,0 +1,645 @@
+---
+title: "Data Analytics Homework"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+# PART-1  
+
+
+# Q1. (10 marks) [Using PropertyAssignment2.csv dataset]
+
+# a) Filter all of the houses from the dataset that were sold in 2017 that have 3 bedrooms and 2
+#     bathrooms and save it as a data frame. (1 mark)
+
+# b) Filter all of the data from the dataset for premises that were sold in Cork or Galway and are
+#   greater than 125 square metres. Order the data so that the price is listed from highest to
+#   lowest and save it as a data frame. (1.5 marks)
+
+# c) Create a data frame that contains the average price, maximum price and minimum price of
+#   all of the new dwelling houses or apartments sold in Dublin 18, Dublin 16, Dublin 15, Dublin
+#   8 or Dublin 4. (1.5 marks)
+
+# d) Using the “ggplot2” package, create a bar chart with all of the property sold in the different
+#   counties in Ireland. Colour each of the bars based on the type of properties sold in each
+#   county. (1.5 marks)
+
+# e) Create a plot using the “ggplot2” package which represents the number of different types of
+#   houses sold over the time period from 2015 to 2017, inclusive. (1.5 marks)
+
+# f) Remove all of the columns from “num_bedrooms” to “not_full_market_price” in the dataset
+#   and keep all of the rows that are from either Dublin, Cork or Galway and are a Semi-
+#   detached house and arrange the prices from lowest to highest. (1.5 marks)
+#
+# g) Filter all of the houses greater than €200,000 from Galway, Roscommon, Mayo or Sligo. Use
+#   ggplot to create a line graph. The line graph should consist of 4 lines representing the price
+#   of each of the 4 counties over the years in the data set. The lines must all be different
+#   colours on the plot. (1.5 marks)
+```
+
+```{r}
+
+
+
+#1.a Importing the dataset
+
+data1 = read.csv("C:\\Users\\user\\Desktop\\r assignment\\PropertyAssignment(2).csv") 
+
+```
+
+```{R}
+
+str(data1)
+
+```
+
+```{r}
+View(data1)
+
+```
+
+```{r}
+
+summary(data1)
+```
+
+```{r}
+# a) Filter all of the houses from the dataset that were sold in 2017 that have 3 bedrooms and 2
+#     bathrooms and save it as a data frame. (1 mark)
+
+# Install the package
+# install.packages("lubridate")
+# Load the package
+library(lubridate)
+#install.packages("tibble")
+library(tibble)
+
+library(dplyr)
+data2= select(data1, sale_date,num_bedrooms,num_bathrooms )
+
+
+# Create date object
+#data2$sale_date <- as.Date(data2$sale_date) 
+
+#c<-subset(data2, sale_date> "01/01/2017" , sale_date < "31/01/2017")
+#c
+
+m<-filter(data2,sale_date >= '01/01/2017' , sale_date <= '31/01/2017', num_bedrooms== '3 Bedrooms' & num_bathrooms=='2 Bathrooms' )
+m
+
+#m1<-filter(data2, (sale_date == 31/03/2017 & num_bedrooms== '3 Bedrooms' & num_bathrooms=='2 Bathrooms' ))
+#m1
+
+
+#m<-filter(data2, (sale_date > as.Date(01/01/2017) & sale_date < as.Date(31/12/2017)) & num_bedrooms== '3 Bedrooms' & num_bathrooms=='2 Bathrooms' )
+#m
+
+# Select the (date , bedrooms, and Bathrooms ) save in a data frame 
+# # And filter based on the condition of ( 3 bedrooms and 2 bathrooms, date on 2017)
+
+
+
+
+
+
+
+```
+
+
+```{r}
+#  b) Filter all of the data from the dataset for premises that were sold in Cork or Galway and are
+#   greater than 125 square metres. Order the data so that the price is listed from highest to
+#   lowest and save it as a data frame. (1.5 marks)
+
+
+data3 <-select(data1, county, property_size_description, price ) # %>% filter(property_size_description > "greater than 125 sq metres")
+
+
+select_home <- filter(data3, county == "Cork"  & property_size_description == "greater than 125 sq metres")
+dim(select_home)
+
+
+select_home1 <- filter(data3, county == "Galway"  & property_size_description == "greater than 125 sq metres")
+dim(select_home1)
+
+
+final <-rbind(select_home , select_home1 )
+
+
+desc<- arrange(final, desc(price))
+desc
+
+# select the county, property size , price variable ) filter based on the properties on specific condition and save result In data frame similarly for the other condition and combine the both data frame using rbind function and we need to do the descending based on the price  
+# 
+
+```
+
+
+```{r}
+#   Create a data frame that contains the average price, maximum price and minimum price of
+#   all of the new dwelling houses or apartments sold in Dublin 18, Dublin 16, Dublin 15, Dublin
+#   8 or Dublin 4. (1.5 marks)
+
+library(dplyr)
+data4 <-select(data1, post_code, property_description, price ) # %>% filter(property_size_description > "greater than 125 sq metres")
+
+
+#   8 or Dublin 4""
+select_home_a <- filter(data4, post_code == "Dublin 18" &  property_description == "New Dwelling House or Apartment")
+select_home_b <- filter(data4, post_code =="Dublin 16"  &   property_description == "New Dwelling House or Apartment")
+select_home_c <- filter(data4, post_code =="Dublin 15"  &   property_description == "New Dwelling House or Apartment")
+select_home_d <- filter(data4, post_code =="Dublin 8"  &   property_description == "New Dwelling House or Apartment")
+select_home_e <- filter(data4, post_code =="Dublin 4"  &   property_description == "New Dwelling House or Apartment")
+                          
+                                                    
+
+final <-rbind(select_home_a , select_home_b,select_home_c,select_home_d,select_home_d  )
+final
+
+#data4 %>%
+#group_by(final) %>% 
+#  mutate(m = mean(Score)) %>% # calculates mean score 
+#  ungroup()
+
+
+#Select the county , and filter based on the conditions and compute the max, min, average(mean(), min(), max()
+
+#max()
+#min()
+#mean()
+
+```
+```{r}
+
+# d) Using the “ggplot2” package, create a bar chart with all of the property sold in the different
+#   counties in Ireland. Colour each of the bars based on the type of properties sold in each
+#   county. (1.5 marks)
+
+install.packages("yourPackage")
+
+library(ggplot2)
+
+data5 <-select(data1, county, formatted_description ) # %>% filter(property_size_description > "greater than 125 sq metres")
+data5
+cond<-c('formatted_description',10)
+spic<-c('county', 10)
+val<- abs(rnom(12,0,15))
+dataa<- data5(spic, cond, val)
+
+ggplot(dataa, aes(fill = cond, y=val, x=spic)) +
+    geom_bar(position = position_dodge(width = 0.8), binwidth = 25) +
+    xlab("formatted_description") +
+    ylab("county") 
+
+#plot.show()
+
+  
+# Select the county, formatted_proprties, and use the ggplot lib for bar plot with specific x, y values of county and formatted_properties.
+
+
+
+
+
+```
+
+
+```{r}
+#e) Create a plot using the “ggplot2” package which represents the number of different types of
+#   houses sold over the time period from 2015 to 2017, inclusive. (1.5 marks)
+
+
+data_m= select(data1,formatted_description,sale_date )
+
+data_m
+#mydates <- interval(start = "01/01/2015", end = "31/12/2017")
+#NewDate <- Dates[(sale_date %within% mydates),]
+#NewDate
+
+m<-filter(data_m, sale_date >= "01/01/2015" , sale_date <= "31/12/2017" )
+m
+
+#b<=filter.date(data_m,sale_date.start="01/01/2015",sale_date.end="31/12/2017")
+#b
+
+c<- filter(data_m, m )
+c
+```
+
+
+```{r}
+# f) Remove all of the columns from “num_bedrooms” to “not_full_market_price” in the dataset
+#   and keep all of the rows that are from either Dublin, Cork or Galway and are a Semi-
+#   detached house and arrange the prices from lowest to highest. (1.5 marks)
+
+
+data6<- data1[c(10:15)]
+
+data6
+
+data7= select(data1, county, formatted_description, price)
+
+s <- filter(data7, county == "Cork"  & formatted_description == "Semi-Detached House")
+dim(select_home)
+
+
+s1 <- filter(data7, county == "Galway"  & formatted_description == "Semi-Detached House")
+
+s2 <- filter(data7, county == "Dublin"  & formatted_description == "Semi-Detached House")
+
+
+final <-rbind(s , s1, s2)
+
+assending<- arrange(final, price)
+assending
+
+
+
+# Remove columns from 10 to 15 from data , store in separate data frame, filter the county, formatted_properties store in data frame and # combine and make a lowest to highest price calculation(ascending).
+
+
+```
+
+
+
+```{r}
+# g) Filter all of the houses greater than €200,000 from Galway, Roscommon, Mayo or Sligo. Use
+#   ggplot to create a line graph. The line graph should consist of 4 lines representing the price
+#   of each of the 4 counties over the years in the data set. The lines must all be different
+#   colours on the plot. (1.5 marks) 
+
+
+library(dplyr)
+data8= select(data1, , sale_date,county, price)
+
+sa <- filter(data8, county == "Galway"  & price >200000.00)
+sa1 <- filter(data8, county == "Roscommon"  & price >200000.00)
+sa2 <- filter(data8, county == "Mayo"  & price  > 200000.00)
+sa3 <-filter(data8, county == "Sligo"  & price >200000.00)
+
+
+final <-rbind(sa , sa1, sa2, sa3)
+final
+
+# Select the price, county and filter based on the condition of price and the specific county and using ggplot for graphs to plot the line #graph.
+```
+
+```{r}
+
+# PART-2 :
+
+```
+
+```{r}
+# A data scientist wants to carry out modelling analysis on this data set in order to find value in buying
+# different types of houses. This means he/she would be using price as the response variable.  
+
+# He/she wants to predict the price using the other explanatory variables in the data set. You are required to
+# prepare this data set for him/her for the analysis so that he/she can go straight into the analysis
+# without having to worry about cleaning the data, adding extra explanatory variables etc.
+
+# The data scientist doesn’t know where to start with the analysis so you must give him/her as many
+# ideas as possible that may be of interest to him/her in finding value in different houses to buy or any
+# general patterns you have found when preparing the data for him/her. You are required to send the
+# data scientist a pdf file, created using R markdown, outlining every step you took in preparing the
+# data for analysis. Some information that may be included in the report are as follow (all code must
+# be shown in the R Markdown file):
+
+# • Identify outliers in the data and remove them if necessary. Try to keep as many rows as
+#   possible. Explain the reasoning as to why any data was removed.
+
+# • Clean the data and explain every step you have taken to clean it.
+
+# • Create different columns and add them to the dataset so that the data scientist has many
+
+#   more predictor/explanatory variables to work with. This can be done using columns in the
+#   dataset as well as columns from other datasets and other sources that you feel may be
+#   relevant.
+
+
+```
+
+```{r}
+# Step 1: Data Preprocessing 
+
+#1.a Importing the dataset
+
+dt = read.csv("C:\\Users\\user\\Desktop\\r assignment\\PropertyAssignment(2).csv")
+str(dt)
+
+```
+
+
+```{r}
+View(dt)
+```
+
+
+```{r}
+summary(dt)
+```
+
+
+```{r}
+# EDA ( EXPLO)
+
+#step-2 : Finding Duplicate 
+
+options(max.print=99999999)
+
+dt[!duplicated(dt), ]
+after_removal <- dt[!duplicated(dt), ]# we can see duplicate data has been removed in rows
+
+```
+
+
+```{r}
+# STEP-2.1 Removing Duplicate Column
+
+after_removal_column <- after_removal[!duplicated(as.list(after_removal))] # No Duplicate Columns are present in data set.
+
+```
+
+
+```{r}
+# STEP-2.2 Removing Duplicate based on the single Column GEOHASH
+
+#Indexes of the duplicate rows that will be removed: 
+duplicate_indexes <- which(duplicated(after_removal_column[c('geohash')]),) 
+duplicate_indexes 
+
+#uniq will contain unique dataset without the duplicates. 
+uniq <- after_removal_column[!duplicated(after_removal_column[c('geohash')]),] 
+View(uniq)
+
+# from this Analysis based on the Duplicate Geohash we got the 11138 Observations but, once we analysed the data , 
+# it maps based on the specific latitude and longitude and more over  which is wrong as other variables are different.
+
+# Hence we are not using (uniq) data frame for further processing.
+
+```
+
+
+```{r}
+
+#  Step 2.3 Checking Dimenetions of the dataset
+
+dim(after_removal_column)
+head(after_removal_column)
+
+# Step 2.4 drop certain column which are not appropriate and un necessary and save the final in df
+
+drop <- c("geohash","formatted_address","lat","lon")
+df = after_removal_column[,!(names(after_removal_column) %in% drop)]
+View(df)
+
+```
+
+```{r}
+# step 3: Adding new Variables :
+
+# since post code variable has only Dublin  we can combine with the raw_address variable and make a new variable address.
+
+library(tidyverse)
+
+df<- df %>%
+unite("Address", raw_address:post_code, sep= ",", remove = TRUE)
+
+view(df)
+View(df)
+```
+
+
+```{r}
+
+# Step 3.1 Replace True or false with 1 and o 
+df[df == "FALSE"] <- 0
+df2<-df
+
+```
+
+```{r}
+# Step 3.1  Create Column  Based on the property description
+
+df2$Is_Apartment<- ifelse(grepl("Apartment", df$formatted_description), "1", "0")
+df2$Is_Bungalow<- ifelse(grepl("Bungalow For Sale", df$formatted_description), "1", "0")
+df2$Is_Detached_Houset<- ifelse(grepl("Detached House", df$formatted_description), "1", "0")
+df2$Is_Duplex<- ifelse(grepl("Duplex For Sale", df$formatted_description), "1", "0")
+df2$Is_End_Terrace <- ifelse(grepl("End of Terrace House", df$formatted_description), "1", "0")
+df2$Is_New_Dwelling_House_Apartment <- ifelse(grepl("New Dwelling House/Apartment", df$formatted_description), "1", "0")
+df2$Is_House_For_Sale <- ifelse(grepl("House For Sale", df$formatted_description), "1", "0")
+df2$Is_SecondHand_Dwelling_house_Apartment <- ifelse(grepl( "Second Hand Dwelling House Apartment", df$formatted_description), "1", "0")
+df2$Is_Semi_Detached_House <- ifelse(grepl("Semi-Detached House", df$formatted_description), "1", "0")
+df2$Is_Site_For_Sale<- ifelse(grepl("Site For Sale", df$formatted_description), "1", "0")
+df2$Is_Terraced_House<- ifelse(grepl("Terraced House", df$formatted_description), "1", "0")
+df2$Is_Townhouse<- ifelse(grepl("Townhouse", df$formatted_description), "1", "0")
+df2$Is_Terraced_House<- ifelse(grepl("Terraced House", df$formatted_description), "1", "0")
+#df2$Is_<- ifelse(grepl("", df$formatted_description), "1", "0")
+
+```
+
+```{r}
+view(df2)
+
+# Step 3.2 Again Create Column  for Bed Rooms Individually 
+
+df2$Is_1_Bedroom<- ifelse(grepl("1 Bedroom", df$num_bedrooms), "1", "0")
+df2$Is_2_Bedroom<- ifelse(grepl("2 Bedrooms", df$num_bedrooms), "1", "0")
+df2$Is_3_Bedroom<- ifelse(grepl("3 Bedrooms", df$num_bedrooms), "1", "0")
+df2$Is_4_Bedroom<- ifelse(grepl("4 Bedrooms", df$num_bedrooms), "1", "0")
+df2$Is_5_Bedroom<- ifelse(grepl("5 Bedrooms", df$num_bedrooms), "1", "0")
+df2$Is_6_Bedroom<- ifelse(grepl("6 Bedrooms", df$num_bedrooms), "1", "0")
+df2$Is_7_Bedroom<- ifelse(grepl("7 Bedrooms", df$num_bedrooms), "1", "0")
+df2$Is_8_Bedroomt<- ifelse(grepl("8 Bedrooms", df$num_bedrooms), "1", "0")
+df2$Is_14_Bedroom<- ifelse(grepl("14 Bedrooms", df$num_bedrooms), "1", "0")
+```
+
+```{r}
+# Step 3.3 Again Create Column  for Bath Rooms Individually 
+
+df2$Is_1_Bathroom<- ifelse(grepl("1 Bathroom", df$num_bathrooms), "1", "0")
+df2$Is_2_Bathrooms <- ifelse(grepl("2 Bathrooms", df$num_bathrooms), "1", "0")
+df2$Is_3_Bathrooms<- ifelse(grepl("3 Bathrooms", df$num_bathrooms), "1", "0")
+
+
+```
+
+
+```{r}
+
+# Step 3.5 Again Create Column based on the Size of the Property in Square Meters 
+
+df2$Is_Greater_than_125_sq_Mtrs<- ifelse(grepl("greater than 125 sq metres", df$property_size_description), "1", "0")
+df2$Is_Greater_than_or_equal_125_sq_Mtrs<- ifelse(grepl("greater than or equal to 125 sq metres", df$property_size_description), "1","0")
+df2$Is_Greater_than_38_or_less_125<- ifelse(grepl("greater than or equal to 38 sq metres and less than 125 sq metres",df$property_size_description), "1", "0")
+df2$Is_less_than_38_sq_mtrs<- ifelse(grepl("less than 38 sq metres", df$property_size_description), "1", "0")
+
+```
+
+
+```{r}
+
+```
+
+
+```{r}
+# Step 4 : Again drop Variables which no longer required 
+
+drop1 <- c("formatted_description","property_description" )
+df2 <- df2[,!(names(df2) %in% drop1)]
+
+drop2 <- c("property_size_description")
+df2 <- df2[,!(names(df2) %in% drop2)]
+drop3 <- c("num_bedrooms","num_bathrooms")
+df2 <- df2[,!(names(df2) %in% drop3)]
+
+View(df2)
+```
+
+
+```{r}
+# step 4.1 Shuffling the data set
+
+shuffle_index <- sample(1:nrow(df2)) # shuffle
+head(shuffle_index)
+df2<- df2[shuffle_index, ]
+head(df2)
+
+```
+
+
+```{r}
+# STEP 4.2 Fill Missing values with NA 
+
+is.na(df2[df2 =='']) <- TRUE
+sum(is.na(df2)) # 
+colSums(is.na(df2)) # sum of  Missing Values based on Column 
+apply(is.na(df2), 2, which) # identify rows of NA values for all column
+View(df2)
+# now new data has missing values filled with NA
+
+# STEP 5: Drop NA 
+
+dropped_Na_3 <- na.omit(df2)
+view(dropped_Na_3)
+head(dropped_Na_3)
+tail(dropped_Na_3)
+```
+
+
+```{r}
+```
+
+
+```{r}
+# part 3
+
+
+# Load in the csv file from Moodle called “CarsAssignment2.csv” into R Studio. Clean this dataset. Only
+# full rows must be kept (No missing values). Explain every step of the cleaning process.
+
+
+```
+
+```{r}
+# Step 1: Data Preprocessing 
+
+#1.a Importing the dataset
+
+dt = read.csv("C:\\Users\\user\\Desktop\\r assignment\\CarsAssignment2.csv")
+str(dt)
+View(dt)
+summary(dt)
+
+```
+
+
+```{r}
+
+
+#2. Data Exploration 
+
+# STEP 2.1 shuffle the data 
+shuffle_index <- sample(1:nrow(dt)) # shuffle
+head(shuffle_index)
+dt<- dt[shuffle_index, ]
+head(dt)
+
+
+
+
+```
+
+```{r}
+
+# STEP 2.2 Omit Missing Data
+
+newdata <- na.omit(dt) # checking for N/A 
+# Looks Suspicious and would check if there is missing values in data set.
+```
+
+
+```{r}
+
+
+# STEP 2.3 Fill Missing values with NA 
+
+is.na(newdata[newdata =='']) <- TRUE
+sum(is.na(newdata)) # 562 Missing values filled with NA
+colSums(is.na(newdata)) # sum of  Missing Values based on Column 
+apply(is.na(newdata), 2, which) # identify rows of NA values for all column
+View(newdata)
+# now new data has missing values filled with NA
+
+# STEP 3: Drop NA 
+
+dropped_Na <- na.omit(newdata)
+view(dropped_Na)
+
+# STEP-4 libaray Tidyverse Remove Duplicate Rows 
+
+# install.packages("dplyr")
+
+library(tidyverse)
+
+options(max.print=99999999)
+removed_duplicates <- dropped_Na
+removed_duplicates%>% distinct()
+removed_duplicates[!duplicated(removed_duplicates), ]
+after_removal <- removed_duplicates[!duplicated(removed_duplicates), ]# we can see duplicate data has been removed in rows
+
+# STEP-4.1 Removing Duplicate Column
+
+after_removal_column <- after_removal[!duplicated(as.list(after_removal))] # No Duplicate Colums are present in dataset.
+
+# Checking Dimenesions of the dataset
+
+dim(after_removal_column)
+head(after_removal_column)
+
+# STEP 5: Check Internal Data 
+
+#install.packages("lubridate")
+# internal data looks good in well placed.
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
+
+```
+
+
+
